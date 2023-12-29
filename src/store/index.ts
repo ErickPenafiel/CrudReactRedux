@@ -1,4 +1,4 @@
-import { Middleware, configureStore } from "@reduxjs/toolkit";
+import { configureStore, type Middleware } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import userReducer, { UserWithId, rollbackUser } from "./users/slice";
 
@@ -7,9 +7,9 @@ const persistanceMiddleware: Middleware = (store) => (next) => (action) => {
 	localStorage.setItem("__redux__state", JSON.stringify(store.getState()));
 };
 
-const syncWithDatabase: Middleware = (store) => (next) => (action) => {
-	const { type, payload } = action;
-	const previousState = store.getState();
+const syncWithDatabase: Middleware = store => next => action => {
+	const { type, payload } = action as {type: string, payload: any};
+	const previousState = store.getState() as RootState;
 	next(action);
 
 	console.log(type, payload);

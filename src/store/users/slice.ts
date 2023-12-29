@@ -62,7 +62,7 @@ export const userSlice = createSlice({
 	reducers: {
 		addNewUser: (state, action: PayloadAction<User>) => {
 			const id = crypto.randomUUID();
-			return [...state, { id, ...action.payload }];
+			state.push({ id, ...action.payload })
 		},
 		deleteUserById: (state, action: PayloadAction<UserId>) => {
 			const id = action.payload;
@@ -71,7 +71,7 @@ export const userSlice = createSlice({
 		rollbackUser: (state, action: PayloadAction<UserWithId>) => {
 			const isUserAlready = state.find((user) => user.id === action.payload.id);
 			if (!isUserAlready) {
-				return [...state, action.payload];
+				state.push(action.payload)
 			}
 		},
 	},
